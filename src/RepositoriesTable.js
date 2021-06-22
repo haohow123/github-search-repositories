@@ -10,8 +10,11 @@ import byString from "./util/StringProperties";
 import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Typography from "@material-ui/core/Typography";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import { TableSortLabel } from "@material-ui/core";
+
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+import IconButton from "@material-ui/core/IconButton";
 
 const columns = [
   { key: "name", text: "Name" },
@@ -20,6 +23,7 @@ const columns = [
   { key: "watchers_count", text: "Watchers" },
   { key: "forks_count", text: "Forks" },
   { key: "stargazers_count", text: "Stars" },
+  { key: "actions", text: "" },
 ];
 
 const useStyles = makeStyles({
@@ -43,6 +47,9 @@ function RepositoriesTable({
     } else {
       handleSort("desc");
     }
+  };
+  const forwardGithub = (url) => {
+    window.open(url, "_blank");
   };
   return (
     <Table stickyHeader>
@@ -74,9 +81,20 @@ function RepositoriesTable({
             )
             .map((repository) => (
               <TableRow key={repository.id}>
-                {columns.map(({ key }) => (
-                  <TableCell key={key}>{byString(repository, key)}</TableCell>
-                ))}
+                {columns.map(({ key }) =>
+                  key !== "actions" ? (
+                    <TableCell key={key}>{byString(repository, key)}</TableCell>
+                  ) : (
+                    <TableCell key={key} width={100}>
+                      <IconButton
+                        aria-label={"go to repository"}
+                        onClick={() => forwardGithub(repository["html_url"])}
+                      >
+                        <ArrowForwardIcon />
+                      </IconButton>
+                    </TableCell>
+                  )
+                )}
               </TableRow>
             ))
         ) : (
