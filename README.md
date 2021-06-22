@@ -2,6 +2,7 @@
 
 using github search api and display by table
 
+[Demo](https://haohow123.github.io/github-search-repositories/)
 P.S. I don't know how to get language list, so I get it from current repositories.
 
 ## Available Scripts
